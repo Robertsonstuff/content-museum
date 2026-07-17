@@ -1,74 +1,163 @@
-
 from bs4 import BeautifulSoup
 from pathlib import Path
-import sys
+import csv
 
 
 def extract_articles(file_path):
+    """
+    Opens an HTML file and returns all article elements.
+    """
+
     with open(file_path, "r", encoding="utf-8") as file:
         html = file.read()
 
     soup = BeautifulSoup(html, "html.parser")
 
-    articles = soup.find_all("article", class_="post")
-
-    return articles
+    return soup.find_all("article", class_="post")
 
 
-def extract_article_data(article):
-    title = article.find("div", class_="title").find("h2").text.strip()
+def extract_article_data(article, article_id):
+    """
+    Extracts metadata from one article.
+    """
 
-    subtitle = article.find("div", class_="title").find("p").text.strip()
+    title_element = article.find("div", class_="title").find("h2")
+    subtitle_element = article.find("div", class_="title").find("p")
+    date_element = article.find("time", class_="published")
+    author_element = article.find(class_="name")
 
-    date = article.find("time", class_="published").text.strip()
-
-    author = article.find(class_="name").text.strip()
+    title = title_element.text.strip() if title_element else None
+    subtitle = subtitle_element.text.strip() if subtitle_element else None
+    date = date_element.text.strip() if date_element else None
+    author = author_element.text.strip() if author_element else None
 
     content = article.get_text(separator=" ", strip=True)
 
     word_count = len(content.split())
 
-    reading_time = round(word_count / 200)
+    reading_time = max(1, round(word_count / 200))
 
     return {
+        "id": article_id,
         "title": title,
         "subtitle": subtitle,
         "date": date,
         "author": author,
         "word_count": word_count,
-        "reading_time": reading_time
+        "reading_time_minutes": reading_time
     }
+
+
+def is_valid_article(article_data):
+    """
+    Determines whether this is a real article.
+    """
+
+    if not article_data["date"]:
+        return False
+
+    if not article_data["author"]:
+        return False
+
+    if article_data["word_count"] < 100:
+        return False
+
+    return True
+
+
+def export_csv(articles, output_file):
+    """
+    Creates the content library CSV file.
+    """
+
+    fieldnames = [
+        "id",
+        "title",
+        "subtitle",
+        "date",
+        "author",
+        "word_count",
+        "reading_time_minutes"
+    ]
+
+    with open(output_file, "w", newline="", encoding="utf-8") as file:
+
+        writer = csv.DictWriter(
+            file,
+            fieldnames=fieldnames
+        )
+
+        writer.writeheader()
+
+        writer.writerows(articles)
 
 
 def main():
 
-    print("=" * 40)
-    print("Content Museum v0.1")
-    print("=" * 40)
+    print("=" * 50)
+    print("Content Museum v0.2")
+    print("=" * 50)
 
-    website_path = Path("../robertsonstuff")
+    project_folder = Path(__file__).parent
 
-    writing_page = website_path / "writing.html"
+    website_folder = project_folder.parent / "robertsonstuff"
 
-    print("\nScanning writing.html...\n")
+    writing_page = website_folder / "writing.html"
+
+    output_folder = project_folder / "data"
+
+    output_file = output_folder / "content_library.csv"
+
+    print()
+    print("Scanning writing.html...")
+    print()
 
     articles = extract_articles(writing_page)
 
-    print(f"Found {len(articles)} articles\n")
+    print(f"Found {len(articles)} possible articles")
 
-    for index, article in enumerate(articles, start=1):
+    valid_articles = []
 
-        data = extract_article_data(article)
+    article_number = 1
 
-        print(f"ARTICLE {index}")
-        print("-" * 40)
+    for article in articles:
 
-        print(f"Title: {data['title']}")
-        print(f"Published: {data['date']}")
-        print(f"Words: {data['word_count']}")
-        print(f"Reading time: {data['reading_time']} minutes")
+        article_id = f"WRITING-{article_number:03}"
 
-        print()
+        data = extract_article_data(
+            article,
+            article_id
+        )
+
+        if is_valid_article(data):
+
+            valid_articles.append(data)
+
+            article_number += 1
+
+        else:
+
+            print(
+                f"Ignored: {data['title']} "
+                "(not a valid article)"
+            )
+
+    print()
+    print(
+        f"Created catalogue with "
+        f"{len(valid_articles)} articles"
+    )
+
+    output_folder.mkdir(exist_ok=True)
+
+    export_csv(
+        valid_articles,
+        output_file
+    )
+
+    print()
+    print("Library created:")
+    print(output_file)
 
 
 if __name__ == "__main__":
