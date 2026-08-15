@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from pathlib import Path
 import csv
+import json
 
 
 def extract_articles(file_path):
@@ -21,8 +22,20 @@ def extract_article_data(article, article_id):
     Extracts metadata from one article.
     """
 
-    title_element = article.find("div", class_="title").find("h2")
-    subtitle_element = article.find("div", class_="title").find("p")
+    title_container = article.find("div", class_="title")
+
+    title_element = (
+        title_container.find("h2")
+        if title_container
+        else None
+    )
+
+    subtitle_element = (
+        title_container.find("p")
+        if title_container
+        else None
+    )
+
     date_element = article.find("time", class_="published")
     author_element = article.find(class_="name")
 
@@ -88,33 +101,220 @@ def export_csv(articles, output_file):
         )
 
         writer.writeheader()
-
         writer.writerows(articles)
+
+
+def load_exhibitions(file_path):
+    """
+    Opens exhibitions.json and returns the museum structure.
+    """
+
+    with open(file_path, "r", encoding="utf-8") as file:
+        return json.load(file)
+
+
+def validate_exhibitions(museum, articles):
+    """
+    Checks that every article referenced by an exhibition
+    actually exists in the content library.
+    """
+
+    article_lookup = {
+        article["id"]: article
+        for article in articles
+    }
+
+    print()
+    print("Checking exhibition references...")
+    print()
+
+    all_valid = True
+    assigned_ids = set()
+
+    for exhibition in museum["exhibitions"]:
+
+        print(exhibition["title"])
+        print("-" * 40)
+
+        artifact_ids = exhibition.get("artifact_ids", [])
+
+        for artifact_id in artifact_ids:
+
+            if artifact_id in article_lookup:
+
+                article = article_lookup[artifact_id]
+
+                print(
+                    f"  ✓ {artifact_id} — "
+                    f"{article['title']}"
+                )
+
+                assigned_ids.add(artifact_id)
+
+            else:
+
+                print(
+                    f"  ✗ {artifact_id} — "
+                    "ARTICLE NOT FOUND"
+                )
+
+                all_valid = False
+
+        print()
+
+    return all_valid, assigned_ids
+
+
+def report_unassigned_articles(articles, assigned_ids):
+    """
+    Identifies valid articles that have not yet been
+    assigned to an exhibition.
+    """
+
+    unassigned = [
+        article
+        for article in articles
+        if article["id"] not in assigned_ids
+    ]
+
+    print("Checking for unassigned articles...")
+    print()
+
+    if not unassigned:
+
+        print("  ✓ All articles are assigned to an exhibition.")
+
+    else:
+
+        print(
+            f"  Found {len(unassigned)} "
+            "unassigned article(s):"
+        )
+
+        for article in unassigned:
+
+            print(
+                f"  • {article['id']} — "
+                f"{article['title']}"
+            )
+
+    print()
+
+    return unassigned
+
+
+def print_museum_summary(museum, articles):
+    """
+    Prints a high-level summary of the museum.
+    """
+
+    print("=" * 50)
+    print("MUSEUM SUMMARY")
+    print("=" * 50)
+
+    print()
+    print(f"Museum: {museum['museum']['name']}")
+    print(f"Tagline: {museum['museum']['tagline']}")
+    print()
+
+    print(
+        f"Exhibitions: "
+        f"{len(museum['exhibitions'])}"
+    )
+
+    print(
+        f"Articles: "
+        f"{len(articles)}"
+    )
+
+    print()
+
+    for exhibition in museum["exhibitions"]:
+
+        artifact_count = len(
+            exhibition.get("artifact_ids", [])
+        )
+
+        anchor = exhibition.get("anchor_artifact")
+
+        print(
+            f"• {exhibition['title']}: "
+            f"{artifact_count} artifacts"
+        )
+
+        if anchor:
+
+            print(
+                f"  Anchor: {anchor}"
+            )
+
+    print()
 
 
 def main():
 
     print("=" * 50)
-    print("Content Museum v0.2")
+    print("Content Museum v0.3")
     print("=" * 50)
 
     project_folder = Path(__file__).parent
 
-    website_folder = project_folder.parent / "robertsonstuff"
+    website_folder = (
+        project_folder.parent / "robertsonstuff"
+    )
 
-    writing_page = website_folder / "writing.html"
+    writing_page = (
+        website_folder / "writing.html"
+    )
 
-    output_folder = project_folder / "data"
+    data_folder = (
+        project_folder / "data"
+    )
 
-    output_file = output_folder / "content_library.csv"
+    output_file = (
+        data_folder / "content_library.csv"
+    )
+
+    exhibitions_file = (
+        data_folder / "exhibitions.json"
+    )
+
+    # ----------------------------------------
+    # Load museum structure
+    # ----------------------------------------
+
+    print()
+    print("Loading museum structure...")
+
+    museum = load_exhibitions(
+        exhibitions_file
+    )
+
+    print(
+        f"Found "
+        f"{len(museum['exhibitions'])} exhibitions"
+    )
+
+    # ----------------------------------------
+    # Extract articles
+    # ----------------------------------------
 
     print()
     print("Scanning writing.html...")
     print()
 
-    articles = extract_articles(writing_page)
+    articles = extract_articles(
+        writing_page
+    )
 
-    print(f"Found {len(articles)} possible articles")
+    print(
+        f"Found {len(articles)} "
+        "possible articles"
+    )
+
+    # ----------------------------------------
+    # Validate articles
+    # ----------------------------------------
 
     valid_articles = []
 
@@ -122,18 +322,34 @@ def main():
 
     for article in articles:
 
-        article_id = f"WRITING-{article_number:03}"
+        # Temporary ID used only while
+        # determining whether this is a
+        # genuine article.
+
+        temporary_id = (
+            f"WRITING-{article_number:03}"
+        )
 
         data = extract_article_data(
             article,
-            article_id
+            temporary_id
         )
 
         if is_valid_article(data):
 
-            valid_articles.append(data)
+            # IMPORTANT:
+            # Only increment the permanent
+            # article number when the article
+            # passes validation.
 
             article_number += 1
+
+            data["id"] = (
+                f"WRITING-"
+                f"{len(valid_articles) + 1:03}"
+            )
+
+            valid_articles.append(data)
 
         else:
 
@@ -142,13 +358,19 @@ def main():
                 "(not a valid article)"
             )
 
+    # ----------------------------------------
+    # Export content library
+    # ----------------------------------------
+
     print()
     print(
         f"Created catalogue with "
         f"{len(valid_articles)} articles"
     )
 
-    output_folder.mkdir(exist_ok=True)
+    data_folder.mkdir(
+        exist_ok=True
+    )
 
     export_csv(
         valid_articles,
@@ -158,6 +380,72 @@ def main():
     print()
     print("Library created:")
     print(output_file)
+
+    # ----------------------------------------
+    # Validate exhibitions
+    # ----------------------------------------
+
+    all_valid, assigned_ids = (
+        validate_exhibitions(
+            museum,
+            valid_articles
+        )
+    )
+
+    # ----------------------------------------
+    # Find unassigned articles
+    # ----------------------------------------
+
+    unassigned = (
+        report_unassigned_articles(
+            valid_articles,
+            assigned_ids
+        )
+    )
+
+    # ----------------------------------------
+    # Museum summary
+    # ----------------------------------------
+
+    print_museum_summary(
+        museum,
+        valid_articles
+    )
+
+    # ----------------------------------------
+    # Final result
+    # ----------------------------------------
+
+    print("=" * 50)
+
+    if all_valid:
+
+        print(
+            "✓ All exhibition references "
+            "are valid."
+        )
+
+    else:
+
+        print(
+            "✗ Some exhibition references "
+            "could not be found."
+        )
+
+    if unassigned:
+
+        print(
+            "⚠ Some articles are not yet "
+            "assigned to an exhibition."
+        )
+
+    else:
+
+        print(
+            "✓ All articles are assigned."
+        )
+
+    print("=" * 50)
 
 
 if __name__ == "__main__":
