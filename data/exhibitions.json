@@ -11,10 +11,10 @@
       "title": "Moving Forward",
       "central_question": "How do I move my life forward when I don't have complete certainty?",
       "core_idea": "Action can create clarity.",
-      "anchor_artifact": "clarity-in-climbing",
+      "anchor_artifact": "WRITING-001",
       "artifact_ids": [
-        "clarity-in-climbing",
-        "the-time-is-now"
+        "WRITING-001",
+        "WRITING-008"
       ],
       "principles": [
         "Action creates clarity.",
@@ -39,13 +39,13 @@
       "core_idea": "Reality is not always something to escape. Sometimes the better response is to understand the circumstances we're in and find a more useful way to live within them.",
       "anchor_artifact": null,
       "artifact_ids": [
-        "serenity",
-        "useful-complaining",
-        "learning-the-system",
-        "how-do-you-recharge",
-        "an-ocean-of-calm",
-        "9-to-5",
-        "are-you-ready-for-new-gym-goals"
+        "WRITING-003",
+        "WRITING-012",
+        "WRITING-009",
+        "WRITING-004",
+        "WRITING-016",
+        "WRITING-006",
+        "WRITING-007"
       ],
       "principles": [
         "Circumstances influence us, but don't completely determine us.",
@@ -74,12 +74,12 @@
       "title": "Becoming Useful",
       "central_question": "How do I distinguish genuine value from the appearance of value?",
       "core_idea": "Many things that improve our lives are not secrets. The challenge is distinguishing substance from marketing, application from consumption, and usefulness from the appearance of usefulness.",
-      "anchor_artifact": "wanting-and-needing-reality",
+      "anchor_artifact": "WRITING-002",
       "artifact_ids": [
-        "wanting-and-needing-reality",
-        "good-not-known",
-        "create-art",
-        "self-help"
+        "WRITING-002",
+        "WRITING-013",
+        "WRITING-011",
+        "WRITING-005"
       ],
       "principles": [
         "Reality comes first.",
@@ -118,8 +118,8 @@
       "core_idea": "Our feelings are useful signals, but they aren't necessarily accurate measures of progress. Measurement creates awareness, and awareness creates the opportunity for honest action.",
       "anchor_artifact": null,
       "artifact_ids": [
-        "the-data-is-there",
-        "what-does-the-data-say"
+        "WRITING-014",
+        "WRITING-015"
       ],
       "principles": [
         "Feelings are useful but aren't necessarily factual.",
@@ -148,8 +148,8 @@
       "core_idea": "The goal isn't to solve every problem. Some problems are solvable, some are dichotomies to be managed, and some struggles are self-created.",
       "anchor_artifact": null,
       "artifact_ids": [
-        "impatience-to-problems",
-        "struggle-is-what-you-want"
+        "WRITING-017",
+        "WRITING-010"
       ],
       "principles": [
         "Not every problem needs to be solved.",
