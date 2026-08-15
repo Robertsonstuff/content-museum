@@ -1,1 +1,239 @@
-
+{
+  "museum": {
+    "name": "lukerobertsonblog.com",
+    "tagline": "Documenting the artifacts of lessons lived and learned.",
+    "guiding_principle": "Learn deeply. Live deliberately. Share generously.",
+    "version": "1.0"
+  },
+  "exhibitions": [
+    {
+      "id": "moving-forward",
+      "title": "Moving Forward",
+      "central_question": "How do I move my life forward when I don't have complete certainty?",
+      "core_idea": "Action can create clarity.",
+      "anchor_artifact": "clarity-in-climbing",
+      "artifact_ids": [
+        "clarity-in-climbing",
+        "the-time-is-now"
+      ],
+      "principles": [
+        "Action creates clarity.",
+        "Progress requires movement, not perfect certainty."
+      ],
+      "tensions": [
+        "Action vs. certainty",
+        "Movement vs. overthinking",
+        "Strategy vs. experimentation",
+        "Planning vs. doing"
+      ],
+      "open_questions": [
+        "How do we choose which direction to move?",
+        "When does persistence become stubbornness?",
+        "How do we distinguish a worthwhile hill from a hill we should abandon?"
+      ]
+    },
+    {
+      "id": "living-with-reality",
+      "title": "Living With Reality",
+      "central_question": "How can I change my relationship with everyday circumstances so I can exercise more agency within them?",
+      "core_idea": "Reality is not always something to escape. Sometimes the better response is to understand the circumstances we're in and find a more useful way to live within them.",
+      "anchor_artifact": null,
+      "artifact_ids": [
+        "serenity",
+        "useful-complaining",
+        "learning-the-system",
+        "how-do-you-recharge",
+        "an-ocean-of-calm",
+        "9-to-5",
+        "are-you-ready-for-new-gym-goals"
+      ],
+      "principles": [
+        "Circumstances influence us, but don't completely determine us.",
+        "Energy can be cultivated rather than merely recovered.",
+        "Our environment matters.",
+        "Conventional narratives deserve examination.",
+        "Agency can exist inside imperfect circumstances."
+      ],
+      "tensions": [
+        "Circumstances vs. agency",
+        "Rest vs. recovery",
+        "Complaining vs. useful feedback",
+        "Job vs. career",
+        "Novelty vs. consistency",
+        "Environment vs. internal state",
+        "Acceptance vs. change"
+      ],
+      "open_questions": [
+        "How should we think about money as a source of everyday pressure?",
+        "How should we think about relationships as a source of everyday pressure?",
+        "How much of our environment should we accept and how much should we change?"
+      ]
+    },
+    {
+      "id": "becoming-useful",
+      "title": "Becoming Useful",
+      "central_question": "How do I distinguish genuine value from the appearance of value?",
+      "core_idea": "Many things that improve our lives are not secrets. The challenge is distinguishing substance from marketing, application from consumption, and usefulness from the appearance of usefulness.",
+      "anchor_artifact": "wanting-and-needing-reality",
+      "artifact_ids": [
+        "wanting-and-needing-reality",
+        "good-not-known",
+        "create-art",
+        "self-help"
+      ],
+      "principles": [
+        "Reality comes first.",
+        "Usefulness matters more than appearance.",
+        "Being known isn't the same as being valuable.",
+        "Fundamentals often outperform novelty.",
+        "Learning should eventually become action."
+      ],
+      "tensions": [
+        "Substance vs. appearance",
+        "Being known vs. being useful",
+        "Knowledge vs. application",
+        "Novelty vs. fundamentals",
+        "Consumption vs. creation",
+        "Marketing vs. reality",
+        "Fame vs. skill",
+        "Complexity vs. simplicity"
+      ],
+      "open_questions": [
+        "Why do we keep searching for novel answers when many things that improve our lives are already obvious?",
+        "What makes something genuinely useful?",
+        "How do we distinguish fundamentals from distractions?"
+      ],
+      "future_artifacts": [
+        {
+          "title": "The Useful Things Aren't Secrets",
+          "question": "Why do we keep searching for novel answers when many things that improve our lives are already obvious?",
+          "status": "emerging"
+        }
+      ]
+    },
+    {
+      "id": "measurement-and-feedback",
+      "title": "Measurement & Feedback",
+      "central_question": "How can measurement help me see reality more clearly and make better decisions about where I'm putting my energy?",
+      "core_idea": "Our feelings are useful signals, but they aren't necessarily accurate measures of progress. Measurement creates awareness, and awareness creates the opportunity for honest action.",
+      "anchor_artifact": null,
+      "artifact_ids": [
+        "the-data-is-there",
+        "what-does-the-data-say"
+      ],
+      "principles": [
+        "Feelings are useful but aren't necessarily factual.",
+        "Data can reveal progress that perception misses.",
+        "Measurement creates awareness.",
+        "Awareness enables better decisions.",
+        "Measurement only matters if it changes action."
+      ],
+      "tensions": [
+        "Data vs. feelings",
+        "Measurement vs. perception",
+        "Progress vs. the feeling of progress",
+        "Awareness vs. assumption",
+        "Measurement vs. meaning"
+      ],
+      "open_questions": [
+        "How do we measure pursuits that don't naturally produce numbers?",
+        "When does measurement become counterproductive?",
+        "How do we measure qualitative progress without reducing it to a number?"
+      ]
+    },
+    {
+      "id": "the-struggle",
+      "title": "The Struggle",
+      "central_question": "What should I solve, what should I manage, and what should I stop fighting?",
+      "core_idea": "The goal isn't to solve every problem. Some problems are solvable, some are dichotomies to be managed, and some struggles are self-created.",
+      "anchor_artifact": null,
+      "artifact_ids": [
+        "impatience-to-problems",
+        "struggle-is-what-you-want"
+      ],
+      "principles": [
+        "Not every problem needs to be solved.",
+        "Some problems are better managed.",
+        "Struggle isn't automatically progress.",
+        "Challenge can be valuable without becoming self-punishment.",
+        "Acceptance can sometimes be more useful than resistance."
+      ],
+      "tensions": [
+        "Solving vs. managing",
+        "Challenge vs. suffering",
+        "Persistence vs. stubbornness",
+        "Growth vs. enjoyment",
+        "Acceptance vs. resistance",
+        "Necessary difficulty vs. self-imposed difficulty"
+      ],
+      "open_questions": [
+        "Can I actually solve this?",
+        "When does persistence become stubbornness?",
+        "What happens when there is nothing left to fix?"
+      ],
+      "future_artifacts": [
+        {
+          "title": "Can I Actually Solve This?",
+          "question": "Is the first question when facing a problem whether action can actually change the situation?",
+          "status": "emerging"
+        },
+        {
+          "title": "When Does Persistence Become Stubbornness?",
+          "question": "At what point does refusing to give up become refusing to accept reality?",
+          "status": "emerging"
+        },
+        {
+          "title": "What Happens When There Is Nothing Left To Fix?",
+          "question": "Can we enjoy a life that is working without immediately creating another problem to solve?",
+          "status": "emerging"
+        }
+      ]
+    }
+  ],
+  "recurring_principles": [
+    "Reality comes first.",
+    "Action creates clarity.",
+    "Usefulness matters more than appearance.",
+    "Fundamentals are often enough.",
+    "Measurement can reveal reality.",
+    "Agency exists within imperfect circumstances.",
+    "Not every problem needs to be solved.",
+    "Struggle isn't automatically progress.",
+    "Learning should eventually become action.",
+    "Perspective can create options."
+  ],
+  "recurring_tensions": [
+    "Knowledge vs. application",
+    "Novelty vs. fundamentals",
+    "Appearance vs. substance",
+    "Being known vs. being useful",
+    "Feelings vs. data",
+    "Acceptance vs. resistance",
+    "Challenge vs. enjoyment",
+    "Certainty vs. action",
+    "Circumstances vs. agency",
+    "Complexity vs. simplicity"
+  ],
+  "museum_cycle": [
+    {
+      "exhibition_id": "moving-forward",
+      "action": "Move."
+    },
+    {
+      "exhibition_id": "living-with-reality",
+      "action": "See what you're actually dealing with."
+    },
+    {
+      "exhibition_id": "becoming-useful",
+      "action": "Determine what is worth doing."
+    },
+    {
+      "exhibition_id": "measurement-and-feedback",
+      "action": "Find out whether it's working."
+    },
+    {
+      "exhibition_id": "the-struggle",
+      "action": "Decide what to solve, manage, accept, or abandon."
+    }
+  ]
+}
